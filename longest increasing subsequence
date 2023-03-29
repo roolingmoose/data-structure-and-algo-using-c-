@@ -1,0 +1,25 @@
+#include<vector>
+int solve(int n, int arr[], int curr, int prev, vector<vector<int>> &dp) {
+  // base case
+  if (curr == n)
+    return 0;
+
+  // checking dp array
+  if (dp[curr][prev + 1] != -1)
+    return dp[curr][prev + 1];
+           // include
+           int take = 0;
+  if (prev == -1 || arr[curr] > arr[prev])
+    take = 1 + solve(n, arr, curr + 1, curr, dp);
+
+  // exclude
+  int notTake = 0 + solve(n, arr, curr + 1, prev, dp);
+  // saving in dp array
+  return dp[curr][prev + 1] = max(take, notTake);
+}
+
+int longestIncreasingSubsequence(int* arr, int n) {
+	//dp array 
+	vector<vector<int>> dp(n,vector<int>(n+1,-1));
+	return solve(n,arr,0,-1,dp);
+}
